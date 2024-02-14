@@ -6,34 +6,32 @@ const dotenv = require('dotenv');
 const path = require('path');
 const mysql = require("mysql");
 
-console.log(path)
-
 dotenv.config();
-const homerouter = require('./routes/home');
-// const aboutrouter = require('./routes/about');
-// const activityrouter = require('./routes/activity');
-// const recommendrouter = require('./routes/recommend-site');
-// const joinrouter = require('./routes/join-quipu');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
+
+// const cors = require("cors");
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(cors());
 
 // MySQL
-const connection = mysql.createConnection({
-  host: 'mainquipu.ctkukqackfc1.ap-northeast-2.rds.amazonaws.com',
-  user: 'quipu0220',
-  password: 'q0u2i2p0u!*',
-  database: 'quipu'
-});
-
-connection.connect(err => {
-  if (err) {
-    console.error('Error connecting to MySQL database: ' + err.stack);
-    return;
-  }
-  console.log('Connected to MySQL database as id ' + connection.threadId);
-});
-
+// const connection = mysql.createConnection({
+//     host: 'mainquipu.ctkukqackfc1.ap-northeast-2.rds.amazonaws.com',
+//     user: 'quipu0220',
+//     password: 'q0u2i2p0u!*',
+//     database: 'quipu'
+//   });
+  
+//   connection.connect(err => {
+//     if (err) {
+//       console.error('Error connecting to MySQL database: ' + err.stack);
+//       return;
+//     }
+//     console.log('Connected to MySQL database as id ' + connection.threadId);
+//   });
 
 app.use(morgan('dev'));
 app.use('/', express.static(path.join(__dirname, 'public')));
@@ -51,33 +49,23 @@ app.use(session({
   name: 'session-cookie',
 }));
 
+const http = require('http').createServer(app);
 
-app.use('/', homerouter);
-// app.use('/about', aboutrouter);
-// app.use('/activity', activityrouter);
-// app.use('/recommend-site', recommendrouter);
-// app.use('/join-quipu', joinrouter);
+app.use( express.static( path.join(__dirname, '../front-end-main/build') ) );
 
-app.get('/api/data', (req, res) => {
-  connection.query('SELECT * FROM your_table', (error, results, fields) => {
-    if (error) {
-      console.error('Error fetching data from MySQL database: ' + error.stack);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
-    res.json(results);
-  });
+app.get('*', function(request, response){
+    response.sendFile( path.join(__dirname, '../front-end-main/build/index.html') )
 });
 
 app.use((req, res, next) => {
-  res.status(404).send('Not Found');
-});
+    res.status(404).send('Not Found');
+  });
+  
+  app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).send(err.message);
+  });
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send(err.message);
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
