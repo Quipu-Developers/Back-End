@@ -51,10 +51,10 @@ app.use(session({
 
 const http = require('http').createServer(app);
 
-app.use( express.static( path.join(__dirname, '../front-end-main/build') ) );
+app.use( express.static( path.join(__dirname, '../front-end-main/public') ) );
 
 app.get('*', function(request, response){
-    response.sendFile( path.join(__dirname, '../front-end-main/build/index.html') )
+    response.sendFile( path.join(__dirname, '../front-end-main/public/index.html') )
 });
 
 app.use((req, res, next) => {
