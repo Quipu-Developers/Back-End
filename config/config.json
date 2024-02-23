@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "ejjem",
+    "password": "tigonlee10*",
+    "database": "quipu",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "ejjem",
+    "password": "tigonlee10*",
+    "database": "quipu",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "quipu0220",
+    "password": "q0u2i2p0u!*",
+    "database": "joinquipu",
+    "host": "quipu-main.ctkukqackfc1.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
+}
