@@ -3,7 +3,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const app = express();
 const cors = require('cors');
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.PORT || 80;
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
 //CORS 정책 해결
@@ -107,6 +107,6 @@ app.post('/api/data', async (req, res) => {
 
 // 서버 시작
 app.listen(PORT, () => {
-    console.log(`서버가 http://localhost:${PORT} 에서 실행 중입니다.`);
+    console.log(`port number: ${PORT}`);
 });
 
