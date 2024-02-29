@@ -14,7 +14,8 @@ app.use(cors({
     origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app'],
     credentials: true,
     methods: "POST",
-    optionsSuccessStatus: 200,
+    allowedHeaders: 'Content-Type, Authorization',
+    optionsSuccessStatus: 200
 }));
 app.options('*', cors());
 
