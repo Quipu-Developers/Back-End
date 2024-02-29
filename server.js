@@ -3,11 +3,17 @@ const express = require('express');
 const mysql = require('mysql2');
 const app = express();
 const cors = require('cors');
-const PORT = process.env.PORT || 7777;
+const morgan = require('morgan');
+const PORT = process.env.PORT || 2395;
+
+app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
 //CORS 정책 해결
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://quipu.uos.ac.kr' }));
+app.use(cors({ origin: 'https://uos-quipu.vercel.app'}));
+
+
 
 const validname = /^[가-힣]+$/;
 const validphoneNumber = /^\d{3}-\d{3,4}-\d{4}$/;
@@ -25,21 +31,6 @@ function isValidstudentNumber(studentNumber){
 
 
 // MySQL 연결 설정
-//localtest
-/*
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'ejjem',
-    password: 'tigonlee10*',
-    database: 'quipu',
-    keepAlive: true
-});
- */
-
-
-
-//production
-
 const connection = mysql.createConnection({
     host: 'quipu-main.ctkukqackfc1.ap-northeast-2.rds.amazonaws.com',
     user: 'quipu0220',
@@ -107,6 +98,6 @@ app.post('/api/data', async (req, res) => {
 
 // 서버 시작
 app.listen(PORT, () => {
-    console.log(`서버가 http://localhost:${PORT} 에서 실행 중입니다.`);
+    console.log(`서버가 ${PORT}번 포트에서 실행 중입니다.`);
 });
 
