@@ -16,6 +16,7 @@ app.use(cors({
     methods: "POST",
     optionsSuccessStatus: 200,
 }));
+app.options('*', cors());
 
 
 
