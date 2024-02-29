@@ -13,13 +13,10 @@ app.use(express.json());
 app.use(cors({ 
     origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/'],
     allowedHeaders: 'Content-Type',
+    methods: ['POST', 'OPTIONS'],
     optionsSuccessStatus: 200
 }));
-app.options('*', (req, res) => {
-    res.header('Access-Control-Allow-Methods', 'GET, POST'); // 허용할 메서드 목록
-    res.header('Access-Control-Allow-Headers', 'Content-Type'); // 허용할 헤더 목록
-    res.sendStatus(200); // 요청 처리 성공 응답
-});
+
 
 
 
