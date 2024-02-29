@@ -12,9 +12,7 @@ app.use(express.json());
 //CORS 정책 해결
 app.use(cors({ 
     origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app'],
-    credentials: true,
-    methods: "POST",
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: 'Content-Type',
     optionsSuccessStatus: 200
 }));
 app.options('*', cors());
