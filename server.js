@@ -10,8 +10,9 @@ app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
 //CORS 정책 해결
-app.use(cors({ origin: 'https://quipu.uos.ac.kr' }));
-app.use(cors({ origin: 'https://uos-quipu.vercel.app'}));
+app.use(cors({ 
+    origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app'] 
+}));
 
 
 
