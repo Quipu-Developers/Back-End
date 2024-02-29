@@ -15,7 +15,11 @@ app.use(cors({
     allowedHeaders: 'Content-Type',
     optionsSuccessStatus: 200
 }));
-app.options('*', cors());
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Methods', 'GET, POST'); // 허용할 메서드 목록
+    res.header('Access-Control-Allow-Headers', 'Content-Type'); // 허용할 헤더 목록
+    res.sendStatus(200); // 요청 처리 성공 응답
+});
 
 
 
