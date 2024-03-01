@@ -2,7 +2,6 @@
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
-const cors = require('cors');
 const morgan = require('morgan');
 const PORT = process.env.PORT || 2395;
 
@@ -16,12 +15,6 @@ app.options('/api/data', (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.sendStatus(200);
 });
-app.use(cors({
-    origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/']
-}));
-
-
-
 
 
 const validname = /^[가-힣]+$/;
