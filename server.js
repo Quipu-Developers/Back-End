@@ -11,7 +11,8 @@ app.use(morgan('combined'));
 app.use(express.json());
 //CORS 정책 해결
 app.use(cors({ 
-    origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/'],
+    origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/',
+        'https://uos-quipu.vercel.app/join-quipu'],
 }));
 
 
