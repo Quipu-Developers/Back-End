@@ -45,7 +45,6 @@ const connection = mysql.createConnection({
     user: 'quipu0220',
     password: 'q0u2i2p0u!*',
     database: 'joinquipu',
-    keepAlive: true
 });
 
 connection.connect((err) => {
@@ -73,23 +72,23 @@ app.post('/api/data', async (req, res) => {
         console.log(req.body);
         if (!membershipType || !name || !studentNumber || !major || !phoneNumber) {
             // 값 누락 확인
-            return res.status(400).json({ error: 'Bad request' });
+            return res.status(400).send();
         }
         if (!isValidname(name)) {
-            return res.status(400).json({ error: 'Bad request' });
+            return res.status(400).send();
         }
         if (!isValidphoneNumber(phoneNumber)) {
-            return res.status(400).json({ error: 'Bad request' });
+            return res.status(400).send();
         }
         if (!isValidstudentNumber(studentNumber)) {
-            return res.status(400).json({ error: 'Bad request' });
+            return res.status(400).send();
         }
         let sql = 'select studentNumber from joinquipu where studentNumber=?'
         connection.query(sql, [studentNumber], function (err, rows) {
             let check = {};
             check.tf = rows[0] === undefined;
             if (check.tf === false){
-                return res.status(409).json({ error: 'Conflict' });
+                return res.status(409).send();
             }
             else {
                 const result = connection.execute(
@@ -104,7 +103,7 @@ app.post('/api/data', async (req, res) => {
 
     } catch (err) {
             console.error(err);
-            res.status(500).json({error:'Server error'});
+        return res.status(500).send();
     }
 });
 
