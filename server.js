@@ -9,17 +9,12 @@ const PORT = process.env.PORT || 2395;
 app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
-//CORS 정책 해결
-app.options('/api/data', (req, res) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // 허용할 메서드 목록
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // 허용할 헤더 목록
-    res.sendStatus(200); // 요청 처리 성공 응답
-});
 
+//CORS 정책 해결
+app.options('*', cors());
 app.use(cors({ 
     origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/'],
     allowedHeaders: 'Content-Type',
-    methods: ['GET, POST'],
     optionsSuccessStatus: 200
 }));
 
@@ -49,7 +44,7 @@ const connection = mysql.createConnection({
     database: 'joinquipu',
     keepAlive: true
 });
-
+/*
 connection.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err);
@@ -61,6 +56,7 @@ connection.connect((err) => {
 connection.on('error', (err) => {
    console.error('MySQL connection error:', err);
 });
+ */
 
 
 // POST 요청을 처리하는 라우트 설정
@@ -71,23 +67,23 @@ app.post('/api/data', async (req, res) => {
         console.log(req.body);
         if (!membershipType || !name || !studentNumber || !major || !phoneNumber) {
             // 값 누락 확인
-            return res.status(400).send();
+            return res.status(400).json({ error: 'Bad request' });
         }
         if (!isValidname(name)) {
-            return res.status(400).send();
+            return res.status(400).json({ error: 'Bad request' });
         }
         if (!isValidphoneNumber(phoneNumber)) {
-            return res.status(400).send();
+            return res.status(400).json({ error: 'Bad request' });
         }
         if (!isValidstudentNumber(studentNumber)) {
-            return res.status(400).send();
+            return res.status(400).json({ error: 'Bad request' });
         }
         let sql = 'select studentNumber from joinquipu where studentNumber=?'
         connection.query(sql, [studentNumber], function (err, rows) {
             let check = {};
             check.tf = rows[0] === undefined;
             if (check.tf === false){
-                return res.status(409).send();
+                return res.status(409).json({ error: 'Conflict' });
             }
             else {
                 const result = connection.execute(
