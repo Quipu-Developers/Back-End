@@ -23,6 +23,7 @@ app.use(cors({
 
 
 
+
 const validname = /^[가-힣]+$/;
 const validphoneNumber = /^\d{3}-\d{3,4}-\d{4}$/;
 const validstudentNumber = /^\d{10}$/;
@@ -63,6 +64,9 @@ connection.on('error', (err) => {
 
 // POST 요청을 처리하는 라우트 설정
 app.post('/api/data', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://uos-quipu.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     try {
         const { membershipType, name, studentNumber, major, phoneNumber, textAreaContent } = req.body;
         console.log('데이터 전송 완료');
@@ -100,7 +104,7 @@ app.post('/api/data', async (req, res) => {
 
     } catch (err) {
             console.error(err);
-            res.status(500).send();
+            res.status(500).json({error:'Server error'});
     }
 });
 
