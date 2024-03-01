@@ -10,16 +10,8 @@ app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
 //CORS 정책 해결
-app.options('/api/data', (req, res) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // 허용할 메서드 목록
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // 허용할 헤더 목록
-    res.sendStatus(200); // 요청 처리 성공 응답
-});
-
 app.use(cors({ 
     origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/'],
-    allowedHeaders: 'Content-Type',
-    methods: ['GET, POST'],
     optionsSuccessStatus: 200
 }));
 
