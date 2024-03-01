@@ -9,13 +9,9 @@ const PORT = process.env.PORT || 2395;
 app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
-
 //CORS 정책 해결
-app.options('*', cors());
 app.use(cors({ 
     origin: ['https://quipu.uos.ac.kr', 'https://uos-quipu.vercel.app/'],
-    allowedHeaders: 'Content-Type',
-    optionsSuccessStatus: 200
 }));
 
 
@@ -44,7 +40,7 @@ const connection = mysql.createConnection({
     database: 'joinquipu',
     keepAlive: true
 });
-/*
+
 connection.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err);
@@ -56,7 +52,7 @@ connection.connect((err) => {
 connection.on('error', (err) => {
    console.error('MySQL connection error:', err);
 });
- */
+
 
 
 // POST 요청을 처리하는 라우트 설정
