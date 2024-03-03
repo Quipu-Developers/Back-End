@@ -100,9 +100,22 @@ app.post('/api/data', async (req, res) => {
     }
 });
 
+function keepInteractiveState() {
+    setInterval(() => {
+        connection.query('SELECT 1', (err, result) => {
+            if (err) {
+                console.error('Error executing SELECT 1 query:', err);
+            } else {
+                console.log('SELECT 1 query executed successfully');
+            }
+        });
+    }, 3600000); // 1시간(밀리초 단위)
+}
 
 // 서버 시작
 app.listen(PORT, () => {
     console.log(`port number: ${PORT}`);
+
+    keepInteractiveState();
 });
 
