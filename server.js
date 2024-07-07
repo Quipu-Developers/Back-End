@@ -1,9 +1,14 @@
 // server.js
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
 const morgan = require('morgan');
 const PORT = process.env.PORT || 2395;
+const hostURL = process.env.HOSTURL;
+const userName = process.env.USER;
+const password = process.env.PASSWORD;
+const databaseName = process.env.DATABASE;
 
 app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
@@ -34,10 +39,10 @@ function isValidstudentNumber(studentNumber){
 
 // MySQL 연결 설정
 const connection = mysql.createConnection({
-    host: 'quipu-main.ctkukqackfc1.ap-northeast-2.rds.amazonaws.com',
-    user: 'quipu0220',
-    password: 'q0u2i2p0u!*',
-    database: 'joinquipu',
+    host: `${hostURL}`,
+    user: `${userName}`,
+    password: `${password}`,
+    database: `${databaseName}`,
 });
 
 connection.connect((err) => {
