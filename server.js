@@ -3,7 +3,7 @@ const path = require('path');
 const mysql = require('mysql2');
 const app = express();
 const cors = require('cors');
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.PORT || 3001;
 const morgan = require('morgan');
 
 const { sequelize } = require('./models');
@@ -14,8 +14,6 @@ app.use(morgan('combined'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended:true}));
-//CORS 정책 해결
-app.use(cors({ origin: 'http://localhost:3000' }));
 
 //DB 연결
 sequelize.authenticate()
