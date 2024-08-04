@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         const requiredValues = { name, student_id, major, phone_number, motivation };
         for (const [field, value] of Object.entries(requiredValues)) {
             if (!value) {
-                return res.status(400).send(sendingerror(field, 1));
+                return res.status(400).send( sendingerror(field, 1));
             }
         }
         // 값 형식 체크
