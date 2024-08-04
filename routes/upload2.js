@@ -41,37 +41,40 @@ router.post('/', async (req, res) => {
             }
             console.log('데이터 전송 완료');
             console.log(req.body);
-            const { name, student_id, major, phone_number, motivation, project_description,
+            const { name, student_id, major, phone_number, motivation, department, project_description,
                 github_profile, github_email, slack_email, willing_general_member } = req.body;
 
             // 값 누락 체크
-            const requiredFields = { name, student_id, major, phone_number, motivation, project_description,
-                github_profile, github_email, slack_email, willing_general_member };
+            const requiredFields = {name, student_id, major, department, phone_number, motivation, willing_general_member };
+            const requiredFields_dev = {project_description, github_profile, github_email, slack_email}
             for (const [field, value] of Object.entries(requiredFields)) {
                 if (!value) {
-                    fs.unlink(req.file.path, (err) => {
-                        if (err) console.error('파일 삭제 실패:', err);
-                    });
+                    deletefile(res, req.file.path);
                     return res.status(400).send(sendingerror(field, 1));
                 }
             }
-            // 값 형식 체크
-            for (const [field, validator] of Object.entries(validators)) {
-                if (!validator(req.body[field])) {
-                    fs.unlink(req.file.path, (err) => {
-                        if (err) console.error('파일 삭제 실패:', err);
-                    });
-                    if(field === 'student_id'){
-                        return res.status(400).send(sendingerror(field, 2));
+            if (req.body.department !== 'design'){
+                for (const [field, value] of Object.entries(requiredFields_dev)) {
+                    if (!value) {
+                        deletefile(res, req.file.path);
+                        return res.status(400).send(sendingerror(field, 1));
                     }
                 }
             }
+
+            // 값 형식 체크
+            for (const [field, validator] of Object.entries(validators)) {
+                const value = req.body[field];
+                if (value !== '' && !validator(req.body[field])) {
+                    deletefile(res, req.file.path);
+                    return res.status(400).send(sendingerror(field, 2));
+                }
+            }
+
             // 중복 확인 by student_id
             const Check = await Dev_member.findOne({ where: { student_id } });
             if (Check) {
-                fs.unlink(req.file.path, (err) => {
-                    if (err) console.error('파일 삭제 실패:', err);
-                });
+                deletefile(res, req.file.path);
                 return res.status(409).send(`이미 신청하셨습니다`);
             }
             console.log('데이터 검사 완료');
@@ -83,6 +86,7 @@ router.post('/', async (req, res) => {
                 student_id,
                 major,
                 phone_number,
+                department,
                 motivation,
                 project_description,
                 portfolio_pdf: portfolioPdfFilename,

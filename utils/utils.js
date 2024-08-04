@@ -1,3 +1,4 @@
+const fs = require('fs');
 //데이터 형식 평가
 const Validname = /^[가-힣]+$/;
 const Validphone_number = /^\d{11}$/;
@@ -33,6 +34,8 @@ function sendingerror(field, version){
                 return '학번이 누락되었습니다';
             case 'phone_number':
                 return '전화번호가 누락되었습니다';
+            case 'department':
+                return '지원 분야가 누락되었습니다';
             case 'motivation':
                 return '지원동기가 누락되었습니다';
             case 'project_description':
@@ -63,5 +66,10 @@ function sendingerror(field, version){
     }
 }
 
+function deletefile(res, filePath,) {
+    fs.unlink(filePath, (err) => {
+        if (err) console.error('파일 삭제 실패:', err);
+    });
+}
 
-module.exports = { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror} ;
+module.exports = { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror, deletefile} ;
