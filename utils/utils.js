@@ -4,7 +4,7 @@ const Validphone_number = /^\d{11}$/;
 //const Validphone_number = /^(\d{0,3})\s?(\d{0,4})\s?(\d{0,4})$/;
 const Validstudent_ID = /^\d{10}$/;
 const Validemail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const Validurl = /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]{1,39}$/i;
+const Validgiturl = /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]{1,39}$/i;
 
 
 function isValidname(name) {
@@ -20,8 +20,8 @@ function isValidphoneNumber(phone_number) {
 function isValidemail(email) {
     return Validemail.test(email);
 }
-function isValidurl(url) {
-    return Validurl.test(url);
+function isValidgiturl(url) {
+    return Validgiturl.test(url);
 }
 
 function sendingerror(field, version){
@@ -64,4 +64,4 @@ function sendingerror(field, version){
 }
 
 
-module.exports = { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidurl, sendingerror} ;
+module.exports = { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror} ;

@@ -25,13 +25,17 @@ class Dev_member extends Sequelize.Model {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            department: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
             motivation: {
                 type: Sequelize.TEXT,
                 allowNull: false,
             },
             project_description: {
                 type: Sequelize.TEXT,
-                allowNull: false,
+                allowNull: true,
             },
             portfolio_pdf: {
                 type: Sequelize.STRING,
@@ -39,15 +43,15 @@ class Dev_member extends Sequelize.Model {
             },
             github_profile: {
                 type: Sequelize.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             github_email: {
                 type: Sequelize.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             slack_email: {
                 type: Sequelize.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             willing_general_member: {
                 type: Sequelize.BOOLEAN,

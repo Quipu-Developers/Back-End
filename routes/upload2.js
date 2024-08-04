@@ -5,7 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const {Dev_member} = require("../models");
-const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidurl, sendingerror } = require('../utils/utils');
+const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror } = require('../utils/utils');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -27,7 +27,7 @@ const validators = {
     name: isValidname,
     student_id: isValidstudentID,
     phone_number: isValidphoneNumber,
-    github_profile: isValidurl,
+    github_profile: isValidgiturl,
     github_email: isValidemail,
     slack_email: isValidemail,
 };
