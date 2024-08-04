@@ -5,7 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const {Dev_member} = require("../models");
-const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror } = require('../utils/utils');
+const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror, deletefile } = require('../utils/utils');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -13,12 +13,7 @@ const upload = multer({
             done(null, 'portfolio/'); //test 디렉토리에 저장
         },
         filename(req, file, done) {
-            const ext = path.extname(file.originalname); //파일의 확장자
-            const name = req.body.name;
-            const student_id = req.body.student_id;
-            const filename = `퀴푸-${name}${student_id}` + ext;
-            file.savedFilename = filename;
-            done(null, filename); //파일 이름, '퀴푸-이름학번.pdf'
+            done(null, file.originalname);
         }
     }),
 })
@@ -44,19 +39,25 @@ router.post('/', async (req, res) => {
             const { name, student_id, major, phone_number, motivation, department, project_description,
                 github_profile, github_email, slack_email, willing_general_member } = req.body;
 
+            //pdf 이름 변경
+            const ext = path.extname(req.file.originalname);
+            const portfolioPdfFilename = `퀴푸-[${department}]${student_id}${name}` + ext;
+            fs.renameSync(req.file.path, path.join('portfolio', portfolioPdfFilename));
+
+
             // 값 누락 체크
             const requiredFields = {name, student_id, major, department, phone_number, motivation, willing_general_member };
             const requiredFields_dev = {project_description, github_profile, github_email, slack_email}
             for (const [field, value] of Object.entries(requiredFields)) {
                 if (!value) {
-                    deletefile(res, req.file.path);
+                    deletefile(res, path.join('portfolio', portfolioPdfFilename));
                     return res.status(400).send(sendingerror(field, 1));
                 }
             }
-            if (req.body.department !== 'design'){
+            if (department !== 'design'){
                 for (const [field, value] of Object.entries(requiredFields_dev)) {
                     if (!value) {
-                        deletefile(res, req.file.path);
+                        deletefile(res, path.join('portfolio', portfolioPdfFilename));
                         return res.status(400).send(sendingerror(field, 1));
                     }
                 }
@@ -66,7 +67,7 @@ router.post('/', async (req, res) => {
             for (const [field, validator] of Object.entries(validators)) {
                 const value = req.body[field];
                 if (value !== '' && !validator(req.body[field])) {
-                    deletefile(res, req.file.path);
+                    deletefile(res, path.join('portfolio', portfolioPdfFilename));
                     return res.status(400).send(sendingerror(field, 2));
                 }
             }
@@ -74,13 +75,12 @@ router.post('/', async (req, res) => {
             // 중복 확인 by student_id
             const Check = await Dev_member.findOne({ where: { student_id } });
             if (Check) {
-                deletefile(res, req.file.path);
+                deletefile(res, path.join('portfolio', portfolioPdfFilename));
                 return res.status(409).send(`이미 신청하셨습니다`);
             }
             console.log('데이터 검사 완료');
 
             // 문제 없으면 저장
-            const portfolioPdfFilename = req.file.savedFilename;
             await Dev_member.create({
                 name,
                 student_id,
