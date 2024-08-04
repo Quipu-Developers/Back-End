@@ -27,7 +27,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 sequelize.authenticate()
     .then(() => {
         console.log('DB 연결');
-        return sequelize.sync({ force: true });
+        return sequelize.sync({});
         //return sequelize.sync({ });
     })
     .then(() => {
