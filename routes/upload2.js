@@ -13,12 +13,7 @@ const upload = multer({
             done(null, 'test/'); //test 디렉토리에 저장
         },
         filename(req, file, done) {
-            const ext = path.extname(file.originalname); //파일의 확장자
-            const name = req.body.name;
-            const student_id = req.body.student_id;
-            const filename = `퀴푸-${name}${student_id}` + ext;
-            file.savedFilename = filename;
-            done(null, filename); //파일 이름, '퀴푸-이름학번.pdf'
+            done(null, file.originalname);
         }
     }),
 })
@@ -43,6 +38,12 @@ router.post('/', async (req, res) => {
             console.log(req.body);
             const { name, student_id, major, phone_number, motivation, department, project_description,
                 github_profile, github_email, slack_email, willing_general_member } = req.body;
+
+            //pdf 이름 변경
+            const ext = path.extname(req.file.originalname);
+            const portfolioPdfFilename = `퀴푸-[${department}]${student_id}${name}` + ext;
+            fs.renameSync(req.file.path, path.join('test', portfolioPdfFilename));
+
 
             // 값 누락 체크
             const requiredFields = {name, student_id, major, department, phone_number, motivation, willing_general_member };
@@ -80,7 +81,6 @@ router.post('/', async (req, res) => {
             console.log('데이터 검사 완료');
 
             // 문제 없으면 저장
-            const portfolioPdfFilename = req.file.savedFilename;
             await Dev_member.create({
                 name,
                 student_id,
