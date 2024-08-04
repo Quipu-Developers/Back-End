@@ -115,6 +115,11 @@
                     "description": "전화번호",
                     "example": "01096761452"
                   },
+                  "department": {
+                    "type": "string",
+                    "description": "지원 분야, design or frontend or backend",
+                    "example": "design"
+                  },
                   "motivation": {
                     "type": "string",
                     "description": "지원 동기",
@@ -151,7 +156,7 @@
                     "example": "네"
                   }
                 },
-                "required": ["name", "student_id", "major", "phone_number", "motivation", "project_description", "portfolio_pdf", "github_profile", "github_email", "slack_email", "willing_general_member"]
+                "required": ["name", "student_id", "major", "phone_number", "department","motivation", "portfolio_pdf", "willing_general_member"]
               }
             }
           }
