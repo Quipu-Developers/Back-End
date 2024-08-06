@@ -80,6 +80,7 @@ router.post('/', async (req, res) => {
             }
             console.log('데이터 검사 완료');
 
+
             // 문제 없으면 저장
             await Dev_member.create({
                 name,
