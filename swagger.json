@@ -151,9 +151,9 @@
                     "example": "example@slack.com"
                   },
                   "willing_general_member": {
-                    "type": "string",
+                    "type": "boolean",
                     "description": "일반부원 지원 의사",
-                    "example": "네"
+                    "example": "1"
                   }
                 },
                 "required": ["name", "student_id", "major", "phone_number", "department","motivation", "portfolio_pdf", "willing_general_member"]
