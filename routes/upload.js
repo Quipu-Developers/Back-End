@@ -3,13 +3,13 @@ const express = require('express');
 const router =express.Router();
 const { General_member } = require('../models');
 const { isValidname, isValidstudentID, isValidphoneNumber, sendingerror } = require('../utils/utils');
+const cors = require('cors');
 
 const validators = {
     name: isValidname,
     student_id: isValidstudentID,
     phone_number: isValidphoneNumber,
 };
-
 
 router.post('/', async (req, res) => {
     try {

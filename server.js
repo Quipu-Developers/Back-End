@@ -6,6 +6,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 3001;
 const morgan = require('morgan');
 
+
 const { sequelize } = require('./models');
 const uploadRouter = require('./routes/upload.js');
 const upload2Router = require('./routes/upload2.js');
@@ -44,9 +45,12 @@ sequelize.authenticate()
 //cors 정책 해결
 app.options((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://quipu.uos.ac.kr');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.sendStatus(200);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200); // preflight 요청에 대한 응답
+    }
     next();
 });
 
