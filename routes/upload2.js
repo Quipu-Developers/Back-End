@@ -7,10 +7,18 @@ const fs = require('fs');
 const {Dev_member} = require("../models");
 const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror, deletefile } = require('../utils/utils');
 
+try {
+    fs.readdirSync('portfolio');
+    console.log('portfolio directory ok');
+} catch(error){
+    fs.mkdirSync('../portfolio');
+    console.log('make portfolio directory');
+}
+
 const upload = multer({
     storage: multer.diskStorage({
         destination(req, file, done) { //저장 위치
-            done(null, 'portfolio/'); //test 디렉토리에 저장
+            done(null, 'portfolio/'); //portfolio 디렉토리에 저장
         },
         filename(req, file, done) {
             done(null, file.originalname);
