@@ -8,10 +8,10 @@ const {Dev_member} = require("../models");
 const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror, deletefile } = require('../utils/utils');
 
 try {
-    fs.readdirSync('../portfolio');
+    fs.readdirSync('../portfolio/');
     console.log('portfolio directory ok');
 } catch(error){
-    fs.mkdirSync('../portfolio');
+    fs.mkdirSync('../portfolio/');
     console.log('make portfolio directory');
 }
 

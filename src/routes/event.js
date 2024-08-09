@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { Event_goods, Event_participant} = require('../models');
-const { isValidname, isValidstudentID, isValidphoneNumber, sendingerror } = require('../utils/utils');
+const { isValidname, isValidstudentID, sendingerror } = require('../utils/utils');
 
 const validators = {
     name: isValidname,
@@ -19,7 +19,7 @@ router.get('/can_participation', async (req, res) => {
             remain_goods_number += item.count;
         });
         if (remain_goods_number > 0){
-            return res.status(200).send('이벤트 참여 가능');
+            return res.status(200).json(remain_goods);
         }
         else {
             return res.status(403).send('이벤트 참여 불가');

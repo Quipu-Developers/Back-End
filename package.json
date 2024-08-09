@@ -5,13 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon src/app.js"
   },
   "author": "ejjem",
   "license": "MIT",
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -22,5 +19,8 @@
     "path": "^0.12.7",
     "sequelize": "^6.37.3",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

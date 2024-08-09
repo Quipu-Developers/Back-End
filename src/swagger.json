@@ -206,7 +206,23 @@
             "description": "이벤트 참여 가능",
             "content": {
               "application/json": {
-                "example": "이벤트 참여 가능"
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "상품 이름"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "남은 상품 갯수"
+                    }
+                  },
+                  "example": {
+                    "name": "메가 커피",
+                    "count": "60"
+                  }
+                }
               }
             }
           },
