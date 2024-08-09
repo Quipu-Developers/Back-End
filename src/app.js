@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const mysql = require('mysql2');
 const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 3001;
@@ -10,6 +9,7 @@ const morgan = require('morgan');
 const { sequelize } = require('./models');
 const uploadRouter = require('./routes/upload.js');
 const upload2Router = require('./routes/upload2.js');
+const eventRouter = require('./routes/event.js');
 
 // Swagger 관련 추가
 const swaggerUi = require('swagger-ui-express');
@@ -54,9 +54,10 @@ app.options((req, res, next) => {
     next();
 });
 
-// POST 요청을 처리 by upload route
+//router 처리
 app.use('/data1', uploadRouter);
 app.use('/data2', upload2Router);
+app.use('/event', eventRouter);
 //swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //error 처리
