@@ -22,8 +22,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended:true}));
 //CORS 정책 해결
-app.use(cors({ origin: 'http://localhost:3000' }));
-
+app.use(cors({
+    origin: 'http://localhost:3000', // 클라이언트의 Origin
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true, // 쿠키를 포함한 요청을 허용}));
+}));
 //DB 연결
 sequelize.authenticate()
     .then(() => {
@@ -43,7 +46,8 @@ sequelize.authenticate()
         console.error('DB 연결 실패:', err);
     });
 //cors 정책 해결
-app.options((req, res, next) => {
+/*
+app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://quipu.uos.ac.kr');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -53,6 +57,7 @@ app.options((req, res, next) => {
     }
     next();
 });
+ */
 
 //router 처리
 app.use('/data1', uploadRouter);
