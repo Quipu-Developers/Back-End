@@ -68,7 +68,6 @@ router.post('/participation', async(req, res) => {
             for (let i = 0; i < item.count; i++) {
                 allItems.push(item.name);
                 allItems.push('Boom');
-                allItems.push('Boom');
             }
         })
         console.log(allItems);
