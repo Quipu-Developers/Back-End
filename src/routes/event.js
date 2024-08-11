@@ -74,9 +74,12 @@ router.post('/participation', async(req, res) => {
         console.log(allItems);
         const randomIndex = Math.floor(Math.random() * allItems.length);
         const selectedItem = allItems[randomIndex];
-        let winning = 1;
-        if (selectedItem === 'Boom'){
-            winning = 0;
+        let winning = 0;
+        if (selectedItem !== 'Boom'){
+            winning = 1;
+            const reduce_goods = await Event_goods.findOne({where: {name: selectedItem}})
+            reduce_goods.count --;
+            await reduce_goods.save();
         }
         const result = {
             name,
@@ -85,9 +88,6 @@ router.post('/participation', async(req, res) => {
             goods: selectedItem,
         }
         await Event_participant.create(result);
-        const reduce_goods = await Event_goods.findOne({where: {name: selectedItem}})
-        reduce_goods.count --;
-        await reduce_goods.save();
         res.status(201).json(result);
         console.log('이벤트 로직 성공');
     } catch(error){
