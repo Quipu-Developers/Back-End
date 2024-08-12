@@ -31,7 +31,7 @@ app.use(cors({
 sequelize.authenticate()
     .then(() => {
         console.log('DB 연결');
-        return sequelize.sync({});
+        return sequelize.sync();
         //return sequelize.sync({ });
     })
     .then(() => {

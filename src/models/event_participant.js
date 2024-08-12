@@ -24,6 +24,10 @@ class Event_participant extends Sequelize.Model {
                 goods: {
                     type: DataTypes.STRING,
                     allowNull: false,
+                },
+                kakao_id: {
+                    type: DataTypes.STRING,
+                    allowNull: true,
                 }
             },
             {

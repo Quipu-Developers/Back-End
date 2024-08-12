@@ -94,5 +94,20 @@ router.post('/participation', async(req, res) => {
         res.status(500).send('server error');
     }
 })
+router.post('/kakao_id', async (req, res) => {
+    const { kakao_id, student_id } = req.body;
+    try {
+        const winner = await Event_participant.findOne({ where: { student_id } });
+        if (winner) {
+            await winner.update({ kakao_id });
+            res.status(200).send('kakao_id 업데이트 성공');
+        } else {
+            res.status(404).send('해당 student_id를 가진 참가자를 찾을 수 없습니다.');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('서버 오류');
+    }
+});
 
 module.exports = router;
