@@ -98,9 +98,15 @@ router.post('/kakao_id', async (req, res) => {
     const { kakao_id, student_id } = req.body;
     try {
         const winner = await Event_participant.findOne({ where: { student_id } });
+        console.log(winner);
         if (winner) {
-            await winner.update({ kakao_id });
-            res.status(200).send('kakao_id 업데이트 성공');
+            if(winner.winning === true){
+                await winner.update({ kakao_id });
+                res.status(200).send('당첨자 kakao_id 업데이트 성공');
+            }
+            else{
+                res.status(400).send('당첨자가 아님');
+            }
         } else {
             res.status(404).send('해당 student_id를 가진 참가자를 찾을 수 없습니다.');
         }

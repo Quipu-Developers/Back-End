@@ -318,7 +318,7 @@
         }
       }
     },
-    "/kakao_id": {
+    "/event/kakao_id": {
       "post": {
         "summary": "카카오 ID 업데이트",
         "description": "특정 student_id를 가진 사용자의 kakao_id를 업데이트합니다.",
