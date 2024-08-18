@@ -307,6 +307,62 @@
               }
             }
           },
+          "409": {
+            "description": "중복 참여",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "참여 순서"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "참여자 이름"
+                    },
+                    "student_id": {
+                      "type": "string",
+                      "description": "참여자 학번"
+                    },
+                    "winning": {
+                      "type": "integer",
+                      "description": "당첨 여부 1 or 0"
+                    },
+                    "goods": {
+                      "type": "string",
+                      "description": "당첨 상품"
+                    },
+                    "kakao_id": {
+                      "type": "string",
+                      "description": "당첨자의 kakao_id"
+                    },
+                    "create_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "신청 시간"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "수정 시간"
+                    }
+                  },
+                  "example": {
+                    "id" : "1",
+                    "name": "이제민",
+                    "student_id": "2020440102",
+                    "winning": 1,
+                    "goods": "메가 커피",
+                    "kakao_id": "asdf",
+                    "created_at": "2024-08-18 09:15:33",
+                    "updated_at": "2024-08-18 09:15:33"
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "서버 에러",
             "content": {
