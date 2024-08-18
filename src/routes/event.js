@@ -54,7 +54,7 @@ router.post('/participation', async(req, res) => {
         const Check = await Event_participant.findOne({
             where: {student_id: student_id} });
         if (Check) {
-            return res.status(409).send(`이미 참여하셨습니다`);
+            return res.status(409).json(Check);
         }
         console.log('데이터 검사 완료');
 
@@ -70,7 +70,6 @@ router.post('/participation', async(req, res) => {
                 allItems.push('Boom');
             }
         })
-        console.log(allItems);
         const randomIndex = Math.floor(Math.random() * allItems.length);
         const selectedItem = allItems[randomIndex];
         let winning = 0;
