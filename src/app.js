@@ -16,7 +16,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
 //morgan
-app.use(morgan('combined'));
+//app.use(morgan('combined'));
 app.use(morgan('dev'));
 // JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());

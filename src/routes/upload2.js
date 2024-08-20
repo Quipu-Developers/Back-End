@@ -7,18 +7,19 @@ const fs = require('fs');
 const {Dev_member} = require("../models");
 const { isValidname, isValidstudentID, isValidphoneNumber, isValidemail, isValidgiturl, sendingerror, deletefile } = require('../utils/utils');
 
+const portfolioDir = path.join(__dirname, '../../portfolio/');
 try {
-    fs.readdirSync('../portfolio/');
+    fs.readdirSync(portfolioDir);
     console.log('portfolio directory ok');
 } catch(error){
-    fs.mkdirSync('../portfolio/');
+    fs.mkdirSync(portfolioDir);
     console.log('make portfolio directory');
 }
 
 const upload = multer({
     storage: multer.diskStorage({
         destination(req, file, done) { //저장 위치
-            done(null, 'portfolio/'); //portfolio 디렉토리에 저장
+            done(null, portfolioDir); //portfolio 디렉토리에 저장
         },
         filename(req, file, done) {
             done(null, file.originalname);
@@ -50,7 +51,7 @@ router.post('/', async (req, res) => {
             //pdf 이름 변경
             const ext = path.extname(req.file.originalname);
             const portfolioPdfFilename = `퀴푸-[${department}]${student_id}${name}` + ext;
-            fs.renameSync(req.file.path, path.join('portfolio', portfolioPdfFilename));
+            fs.renameSync(req.file.path, path.join(portfolioDir, portfolioPdfFilename));
 
 
             // 값 누락 체크
@@ -58,14 +59,14 @@ router.post('/', async (req, res) => {
             const requiredFields_dev = {project_description, github_profile, github_email, slack_email}
             for (const [field, value] of Object.entries(requiredFields)) {
                 if (!value) {
-                    deletefile(res, path.join('portfolio', portfolioPdfFilename));
+                    deletefile(res, path.join(portfolioDir, portfolioPdfFilename));
                     return res.status(400).send(sendingerror(field, 1));
                 }
             }
             if (department !== 'design'){
                 for (const [field, value] of Object.entries(requiredFields_dev)) {
                     if (!value) {
-                        deletefile(res, path.join('portfolio', portfolioPdfFilename));
+                        deletefile(res, path.join(portfolioDir, portfolioPdfFilename));
                         return res.status(400).send(sendingerror(field, 1));
                     }
                 }
@@ -75,7 +76,7 @@ router.post('/', async (req, res) => {
             for (const [field, validator] of Object.entries(validators)) {
                 const value = req.body[field];
                 if (value !== '' && !validator(req.body[field])) {
-                    deletefile(res, path.join('portfolio', portfolioPdfFilename));
+                    deletefile(res, path.join(portfolioDir, portfolioPdfFilename));
                     return res.status(400).send(sendingerror(field, 2));
                 }
             }
@@ -83,7 +84,7 @@ router.post('/', async (req, res) => {
             // 중복 확인 by student_id
             const Check = await Dev_member.findOne({ where: { student_id } });
             if (Check) {
-                deletefile(res, path.join('portfolio', portfolioPdfFilename));
+                deletefile(res, path.join(portfolioDir, portfolioPdfFilename));
                 return res.status(409).send(`이미 신청하셨습니다`);
             }
             console.log('데이터 검사 완료');
