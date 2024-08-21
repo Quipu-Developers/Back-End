@@ -32,10 +32,20 @@ sequelize.authenticate()
     .then(() => {
         console.log('DB 연결');
         return sequelize.sync();
-        //return sequelize.sync({ });
+
     })
     .then(() => {
         console.log('DB 동기화');
+        // 주기적으로 DB 연결 상태 유지
+        setInterval(() => {
+            sequelize.query('SELECT 1')
+                .then(() => {
+                    console.log('SELECT 1 query executed successfully');
+                })
+                .catch(err => {
+                    console.error('Error executing SELECT 1 query:', err);
+                });
+        }, 3600000); // 1시간(밀리초 단위)
         app.listen(PORT, () => {
             console.log(`port:${PORT}`)
             console.log(`swagger: http://localhost:${PORT}/api-docs`);
