@@ -3,6 +3,9 @@ const path = require('path');
 const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 3001;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const helmet = require('helmet');
+const hpp = require('hpp');
 const morgan = require('morgan');
 
 
@@ -15,12 +18,18 @@ const eventRouter = require('./routes/event.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-//morgan
-//app.use(morgan('combined'));
-app.use(morgan('dev'));
-// JSON 데이터를 파싱하기 위한 미들웨어 설정
 app.use(express.json());
-app.use(express.urlencoded({ extended:true}));
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan("dev"));
+    app.use(express.urlencoded({ extended: false }));
+} else{
+    app.enable('trust proxy');
+    app.use(morgan("combined"));
+    app.use(helmet({contentSecurityPolicy: false}));
+    app.use(hpp());
+    app.use(express.urlencoded({ extended: true }));
+}
+
 //CORS 정책 해결
 app.use(cors({
     origin: 'http://localhost:3000', // 클라이언트의 Origin
